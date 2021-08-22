@@ -54,9 +54,7 @@ function drawEnemies() {
 
 function isMoveValid(nextMove) {
     if(playerHasMove) {
-        if(nextMove < (mapSize * boxSize) - moveSize && nextMove > Math.floor(moveSize / 2)) {
-            console.log((mapSize * boxSize) - moveSize)
-            console.log(moveSize)
+        if(nextMove > moveSize && nextMove < (mapSize * boxSize) - boxSize) {
             return true;
         }
         return false;
