@@ -17,14 +17,27 @@
     background-image: url("../img/enemy.png");
 }
 
-.missile {
+.playerMissile {
     background-image: url("../img/missile1.png");
 }
 
-.player, .enemy, .missile {
-    width: 70px;
-    height: 70px;
+.enemyMissile {
+    background-image: url("../img/missile2.png");
+    transform: scale(-1);
+}
+
+.player, .enemy, .playerMissile, .enemyMissile {
     position: absolute;
     background-repeat: no-repeat;
     background-size: contain;
+}
+
+.player, .enemy {
+    width: 70px;
+    height: 70px;
+}
+
+.playerMissile, .enemyMissile {
+    width: 30px;
+    height: 30px;
 }

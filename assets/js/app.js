@@ -4,7 +4,8 @@ const boxSize = 70;
 const playersDOM = document.querySelector('#players');
 const enemiesDOM = document.querySelector('#enemies');
 const worldDOM = document.querySelector('#world');
-const missilesDOM = document.querySelector('#missiles');
+const playerMissilesDOM = document.querySelector('#playerMissiles');
+const enemiesMissilesDOM = document.querySelector('#enemiesMissiles');
 
 // Create Player
 let player = document.createElement('div');
@@ -28,19 +29,20 @@ let enemiesPosition = [
     },
     {
         left: 140,
-        top: -70
+        top: 0
     },
     {
         left: 210,
-        top: -140
+        top: 0
     },
     {
         left: 280,
-        top: -210
+        top: 0
     }
 ]
 
-let missilesPosition = [];
+let playerMissiles = [];
+let enemiesMissiles = [];
 
 function setWorldDimension() {
     worldDOM.style.width = `${mapSize * boxSize}px`;
@@ -63,14 +65,25 @@ function drawEnemies() {
     }
 }
 
-function drawMissiles() {
-    missilesDOM.innerHTML = "";
-    for(let i = 0; i < missilesPosition.length; i++) {
+function drawPlayerMissiles() {
+    playerMissilesDOM.innerHTML = "";
+    for(let i = 0; i < playerMissiles.length; i++) {
         let missile = document.createElement('div');
-        missile.className = 'missile';
-        missile.style.left = `${missilesPosition[i].left}px`;
-        missile.style.top = `${missilesPosition[i].top}px`;
-        missilesDOM.appendChild(missile);
+        missile.className = 'playerMissile';
+        missile.style.left = `${playerMissiles[i].left}px`;
+        missile.style.top = `${playerMissiles[i].top}px`;
+        playerMissilesDOM.appendChild(missile);
+    }
+}
+
+function drawEnemiesMissiles() {
+    enemiesMissilesDOM.innerHTML = "";
+    for(let i = 0; i < enemiesMissiles.length; i++) {
+        let missile = document.createElement('div');
+        missile.className = 'enemyMissile';
+        missile.style.left = `${enemiesMissiles[i].left}px`;
+        missile.style.top = `${enemiesMissiles[i].top}px`;
+        enemiesMissilesDOM.appendChild(missile);
     }
 }
 
@@ -123,32 +136,49 @@ function movePlayer(e) {
 
 function moveEnemies() {
     for (let i = 0; i < enemiesPosition.length; i++) {
-        enemiesPosition[i].top = enemiesPosition[i].top + 5;
+        enemiesPosition[i].top = enemiesPosition[i].top + 10;
+        enemiesMissilesLoop(i);
 
         if(enemiesPosition[i].top > (mapSize * boxSize) - 100) {
             enemiesPosition.splice(enemiesPosition[i], 1);
+
+            // Delete missiles from eliminated enemies
+            enemiesMissiles.find((element, index) => {
+                if(element.enemy === i) {
+                    enemiesMissiles.splice(enemiesMissiles[index], 1);
+                }
+            });
         }
     }
 }
 
-function enemiesShot() {
-
+function enemiesShot(enemy) {
+    enemiesMissiles.push({enemy: enemy, left: enemiesPosition[enemy].left + Math.floor(boxSize / 3), top: enemiesPosition[enemy].top + 40});
 }
 
 function playerShot(e) {
-
     if(e.keyCode === 32) {
-        missilesPosition.push({left: playerPosition.left + Math.floor(boxSize / 3), top: playerPosition.top - 10});
-        drawMissiles();
+        playerMissiles.push({left: playerPosition.left + Math.floor(boxSize / 3), top: playerPosition.top - 10});
+        drawPlayerMissiles();
     }
 }
 
-function moveMissiles() {
-    for (let i = 0; i < missilesPosition.length; i++) {
-        missilesPosition[i].top = missilesPosition[i].top - 20;
+function movePlayerMissiles() {
+    for (let i = 0; i < playerMissiles.length; i++) {
+        playerMissiles[i].top = playerMissiles[i].top - 10;
 
-        if(missilesPosition[i].top < 0) {
-            missilesPosition.splice(missilesPosition[i], 1);
+        if(playerMissiles[i].top < 0) {
+            playerMissiles.splice(playerMissiles[i], 1);
+        }
+    }
+}
+
+function moveEnemiesMissiles() {
+    for (let i = 0; i < enemiesMissiles.length; i++) {
+        enemiesMissiles[i].top = enemiesMissiles[i].top + 20;
+
+        if(enemiesMissiles[i].top > (boxSize * mapSize) - 100) {
+            enemiesMissiles.splice(enemiesMissiles[i], 1);
         }
     }
 }
@@ -156,9 +186,17 @@ function moveMissiles() {
 function gameLoop() {
     moveEnemies();
     drawEnemies();
-    moveMissiles();
-    drawMissiles();
-    setTimeout(gameLoop, 100);
+
+    movePlayerMissiles();
+    drawPlayerMissiles();
+
+    setTimeout(gameLoop, 500);
+}
+
+function enemiesMissilesLoop(i) {
+    enemiesShot(i);
+    moveEnemiesMissiles();
+    drawEnemiesMissiles();
 }
 
 setWorldDimension();
