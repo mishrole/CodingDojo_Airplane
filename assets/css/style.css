@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#world {
+    background-repeat: no-repeat;
+    background-image: url("../img/background.png");
+    /* width: 900px;
+    height: 700px; */
+}
+
+.player {
+    background-image: url("../img/hero.png");
+}
+
+.enemy {
+    background-image: url("../img/enemy.png");
+}
+
+.player, .enemy {
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    background-repeat: no-repeat;
+}
