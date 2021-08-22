@@ -124,6 +124,10 @@ function movePlayer(e) {
 function moveEnemies() {
     for (let i = 0; i < enemiesPosition.length; i++) {
         enemiesPosition[i].top = enemiesPosition[i].top + 5;
+
+        if(enemiesPosition[i].top > (mapSize * boxSize) - 100) {
+            enemiesPosition.splice(enemiesPosition[i], 1);
+        }
     }
 }
 
@@ -154,7 +158,7 @@ function gameLoop() {
     drawEnemies();
     moveMissiles();
     drawMissiles();
-    setTimeout(gameLoop, 1000);
+    setTimeout(gameLoop, 100);
 }
 
 setWorldDimension();
