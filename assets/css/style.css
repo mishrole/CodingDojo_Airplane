@@ -6,11 +6,11 @@
 
 #world {
     background-repeat: no-repeat;
-    background-image: url("../img/ocean.jpg");
+    background-image: url("../img/background.jpg");
 }
 
 .player {
-    background-image: url("../img/player.png");
+    background-image: url("../img/airplane.png");
 }
 
 .enemy {
@@ -22,4 +22,5 @@
     height: 70px;
     position: absolute;
     background-repeat: no-repeat;
+    background-size: contain;
 }
