@@ -23,19 +23,19 @@ let playerPosition = {
 let enemiesPosition = [
     {
         left: 70,
-        top: 70
+        top: 0
     },
     {
         left: 140,
-        top: 140
+        top: -70
     },
     {
         left: 210,
-        top: 210
+        top: -140
     },
     {
         left: 280,
-        top: 280
+        top: -210
     }
 ]
 
@@ -50,6 +50,7 @@ function drawPlayer() {
 }
 
 function drawEnemies() {
+    enemiesDOM.innerHTML = "";
     for(let i = 0; i < enemiesPosition.length; i++) {
         let enemy = document.createElement('div');
         enemy.className = 'enemy';
@@ -106,9 +107,21 @@ function movePlayer(e) {
     drawPlayer();
 }
 
+function moveEnemies() {
+    for (let i = 0; i < enemiesPosition.length; i++) {
+        enemiesPosition[i].top = enemiesPosition[i].top + 5;
+    }
+}
+
+function gameLoop() {
+    moveEnemies();
+    drawEnemies();
+    setTimeout(gameLoop, 1000);
+}
+
 setWorldDimension();
 drawPlayer();
-drawEnemies();
+gameLoop();
 
 document.onkeydown = function (e) {
     movePlayer(e);
