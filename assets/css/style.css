@@ -17,7 +17,11 @@
     background-image: url("../img/enemy.png");
 }
 
-.player, .enemy {
+.missile {
+    background-image: url("../img/missile1.png");
+}
+
+.player, .enemy, .missile {
     width: 70px;
     height: 70px;
     position: absolute;
