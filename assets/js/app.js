@@ -1,6 +1,5 @@
 const mapSize = 10;
 const boxSize = 70;
-const moveSize = Math.floor(boxSize / 2);
 
 const playersDOM = document.querySelector('#players');
 const enemiesDOM = document.querySelector('#enemies');
@@ -23,12 +22,20 @@ let playerPosition = {
 
 let enemiesPosition = [
     {
-        left: 350,
-        top: 200
+        left: 70,
+        top: 70
     },
     {
-        left: 450,
-        top: 250
+        left: 140,
+        top: 140
+    },
+    {
+        left: 210,
+        top: 210
+    },
+    {
+        left: 280,
+        top: 280
     }
 ]
 
@@ -54,7 +61,7 @@ function drawEnemies() {
 
 function isMoveValid(nextMove) {
     if(playerHasMove) {
-        if(nextMove > moveSize && nextMove < (mapSize * boxSize) - boxSize) {
+        if(nextMove >= boxSize && nextMove < (mapSize * boxSize) - boxSize) {
             return true;
         }
         return false;
@@ -65,7 +72,7 @@ function movePlayer(e) {
 
     // Left
     if(e.keyCode == 37) {
-        let nextMove = playerPosition.left - moveSize;
+        let nextMove = playerPosition.left - boxSize;
         
         if(isMoveValid(nextMove)) {
             playerPosition.left = nextMove;
@@ -73,7 +80,7 @@ function movePlayer(e) {
     }
     // Top
     else if(e.keyCode == 38) {
-        let nextMove = playerPosition.top - moveSize;
+        let nextMove = playerPosition.top - boxSize;
         
         if(isMoveValid(nextMove)) {
             playerPosition.top = nextMove;
@@ -81,7 +88,7 @@ function movePlayer(e) {
     }
     // Right
     else if (e.keyCode == 39) {
-        let nextMove = playerPosition.left + moveSize;
+        let nextMove = playerPosition.left + boxSize;
 
         if(isMoveValid(nextMove)) {
             playerPosition.left = nextMove;
@@ -89,7 +96,7 @@ function movePlayer(e) {
     }
     // Down
     else if (e.keyCode == 40) {
-        let nextMove = playerPosition.top + moveSize;
+        let nextMove = playerPosition.top + boxSize;
 
         if(isMoveValid(nextMove)) {
             playerPosition.top = nextMove;
